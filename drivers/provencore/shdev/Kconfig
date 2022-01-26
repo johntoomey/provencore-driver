@@ -1,0 +1,117 @@
+config PROVENCORE_SHARED_DEVICES
+    tristate "Shared devices driver"
+    default n
+    depends on PROVENCORE_REE
+    help
+        REE shared devices driver is configuring REE session with counterpart
+        Provencore service that will then be able to request for specific
+        asynchronous operations on configured shared devices
+        (mainly suspend/resume operations).
+
+if PROVENCORE_SHARED_DEVICES
+
+config PROVENCORE_SHARED_MMC
+    bool "Enable sharing mmc block device"
+    default n
+
+if PROVENCORE_SHARED_MMC
+
+config PROVENCORE_MMC_REMOTE_HOST
+    bool "Enable the handlers for accessing MMC through Linux's driver"
+    default y
+
+config PROVENCORE_MMC_DEVICE
+    string "Path to the shared mmc block device"
+    default "/dev/mmcblk0"
+
+config PROVENCORE_MMC_DEVID
+    int "Device id of the shared mmc block device (recommended)"
+    default 0
+
+config PROVENCORE_MMC_IOCTL_SUSPEND
+    int "Ioctl command number to be used to implement mmc suspend"
+    default 1
+
+config PROVENCORE_MMC_IOCTL_RESUME
+    int "Ioctl command number to be used to implement mmc resume"
+    default 2
+
+config PROVENCORE_MMC_COMPATIBLE
+    bool "Enable sharing mmc block device compatibility"
+    default n
+
+config PROVENCORE_MMC_COMPATIBLE_DEVICE
+    string "MMC device compatibility"
+    help
+        The configured value should match the 'compatible' attribute
+        of the selected 'mmc' device for the current platform
+    depends on PROVENCORE_MMC_COMPATIBLE
+
+if PROVENCORE_MMC_REMOTE_HOST
+
+config PROVENCORE_MMC_USE_RPMB
+    bool "Activate support for RPMB device"
+    default n
+
+if PROVENCORE_MMC_USE_RPMB
+
+config PROVENCORE_MMC_RPMB_DEVICE
+    string "Path to the shared rpmb device"
+    default "/dev/mmcblk0rpmb"
+
+config PROVENCORE_MMC_RPMB_USE_DEFAULT_BLKCNT
+    bool "Set default number of blocks in RPMB partition"
+    default n
+    help
+      Enable this config if ioctl BLKGETSIZE for RPMB is not implemented
+
+config PROVENCORE_MMC_RPMB_BLKCNT
+    int "The number of blocks in RPMB partition"
+    default 16384
+    depends on PROVENCORE_MMC_RPMB_USE_DEFAULT_BLKCNT
+
+config PROVENCORE_MMC_RPMB_USE_DEFAULT_BLKSIZE
+    bool "Set default block size of RPMB"
+    default n
+    help
+      Enable this config if ioctl BLKPBSZGET for RPMB is not implemented
+
+config PROVENCORE_MMC_RPMB_BLKSIZE
+    int "The physical block size of RPMB partition"
+    default 256
+    depends on PROVENCORE_MMC_RPMB_USE_DEFAULT_BLKSIZE
+
+endif # PROVENCORE_MMC_USE_RPMB
+
+endif # PROVENCORE_MMC_REMOTE_HOST
+
+endif # PROVENCORE_SHARED_MMC
+
+config PROVENCORE_SHARED_ENET
+    bool "Enable sharing enet block device"
+    default n
+
+if PROVENCORE_SHARED_ENET
+
+config PROVENCORE_ENET_DEVICE
+    string "Enet device compatibility"
+    help
+        The configured value should match the 'compatible' attribute
+        of the selected 'enet' device for the current platform
+
+endif # PROVENCORE_SHARED_ENET
+
+config PROVENCORE_SHARED_SPI
+    bool "Enable sharing spi block device"
+    default n
+
+if PROVENCORE_SHARED_SPI
+
+config PROVENCORE_SPI_DEVICE
+    string "spi device compatibility"
+    help
+        The configured value should match the 'compatible' attribute
+        of the selected 'spi' device for the current platform
+
+endif # PROVENCORE_SHARED_SPI
+endif # PROVENCORE_SHARED_DEVICES

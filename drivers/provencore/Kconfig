@@ -1,0 +1,7 @@
+menu "Provencore drivers"
+
+source "drivers/provencore/ree/Kconfig"
+
+source "drivers/provencore/shdev/Kconfig"
+
+endmenu
