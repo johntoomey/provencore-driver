@@ -44,6 +44,13 @@
 #include "session.h"
 #include "smc.h"
 
+#ifndef CONFIG_PROVENCORE_TEST
+#error NOT DEFINED
+#endif
+#if CONFIG_PROVENCORE_TEST != 1
+#error NOT CORRECT
+#endif
+
 #ifndef CONFIG_PROVENCORE_DTS_CONFIGURATION
 #ifndef CONFIG_PROVENCORE_NON_SECURE_IRQ
 /* Default SGI used by ProvenCore to notify the non-secure world. */
